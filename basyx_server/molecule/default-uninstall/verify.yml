@@ -1,0 +1,29 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify (ssh)
+  hosts: ssh
+  gather_facts: false
+  tasks:
+    - name: Include default vars
+      ansible.builtin.include_vars:
+        dir: ../../defaults
+
+    - name: Set port
+      ansible.builtin.set_fact:
+        port: "{{ basyx_server_port | default(basyx_server_default_port) }}"
+
+    - name: Wait for port being available
+      ansible.builtin.wait_for:
+        host: "{{ ansible_host }}"
+        port: "{{ port }}"
+        timeout: 10
+        state: absent
+
+    - name: Send GET request to basyx_server endpoint
+      ansible.builtin.uri:
+        url: "http://{{ansible_host}}:{{ port }}"
+      register: get_result
+      failed_when: get_result.status != -1
+
+

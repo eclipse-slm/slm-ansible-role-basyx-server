@@ -1,0 +1,11 @@
+[Unit]
+Description=Basyx Server
+After=network-online.target
+
+[Service]
+User={{ basyx_server_user }}
+WorkingDirectory={{ basyx_server_directory }}
+ExecStart=/usr/bin/java -DBASYX_AAS="{{ basyx_server_directory }}/aas.properties" -DBASYX_CONTEXT="{{ basyx_server_directory }}/context.properties" -jar {{ basyx_server_executable_full_path }}
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,19 @@
+---
+# defaults file for basyx_server
+basyx_components_github_url: https://github.com/eclipse-basyx/basyx-java-components
+basyx_components_version: "1.4.0"
+basyx_components_base_folder: /tmp/basyx_components
+basyx_server_target_folder: "{{ basyx_components_base_folder }}/basyx.components/basyx.components.docker/basyx.components.AASServer/target"
+basyx_server_target_jar: "basyx.components.AASServer-{{ basyx_server_version }}.jar"
+basyx_server_user: basyx
+basyx_server_directory: /opt/basyx/server
+basyx_server_version: "{{ basyx_components_version }}"
+basyx_server_download_url: "https://repo1.maven.org/maven2/org/eclipse/basyx/basyx.components.AASServer/{{ basyx_server_version }}/basyx.components.AASServer-{{ basyx_server_version }}.jar"
+basyx_server_executable_full_path: "{{ basyx_server_directory }}/{{ basyx_server_target_jar }}"
+basyx_server_service_name: basyx_server
+basyx_server_config_files:
+  - template_file: aas.properties.j2
+    config_file: aas.properties
+  - template_file: context.properties.j2
+    config_file: context.properties
+basyx_server_default_port: 4001

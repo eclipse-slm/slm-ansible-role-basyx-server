@@ -1,0 +1,35 @@
+---
+- name: "Stop basyx_server service"
+  ansible.builtin.systemd:
+    state: stopped
+    daemon_reload: yes
+    name: "{{ basyx_server_service_name }}"
+  register: stop_service_result
+  failed_when:
+    - stop_service_result.changed == false
+    - "'Could not find' not in stop_service_result.msg"
+
+- name: "Remove service file"
+  ansible.builtin.file:
+    path: "/etc/systemd/system/{{ basyx_server_service_name }}.service"
+    state: absent
+
+- name: "Reload systemd daemon"
+  ansible.builtin.systemd:
+    daemon_reload: yes
+
+- name: "Remove folders"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "{{ basyx_components_base_folder }}"
+    - "{{ basyx_server_directory }}"
+
+- name: "Delete '{{ basyx_server_user }}' User"
+  ansible.builtin.user:
+    name: "{{ basyx_server_user }}"
+    state: absent
+
+- name: Uninstall Packages
+  ansible.builtin.include_tasks: helper/uninstall_packages.yml

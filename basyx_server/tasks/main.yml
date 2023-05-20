@@ -1,0 +1,9 @@
+---
+# tasks file for basyx_server
+- name: Install basyx_server on target host
+  ansible.builtin.include_tasks: install.yml
+  when: state | default("present") == "present"
+
+- name: Uninstall basyx_server on target host
+  ansible.builtin.include_tasks: uninstall.yml
+  when:  state | default("present") == "absent"

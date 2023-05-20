@@ -1,0 +1,9 @@
+---
+- name: Converge - Install (ssh)
+  hosts: ssh
+  gather_facts: yes
+  become: yes
+  tasks:
+    - name: "Include basyx_server - state = present"
+      ansible.builtin.include_role:
+        name: "basyx_server"

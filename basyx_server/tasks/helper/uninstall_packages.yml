@@ -1,0 +1,25 @@
+---
+- name: Uninstall openjdk-11-jre, maven, git - Ubuntu
+  ansible.builtin.apt:
+    name:
+      - openjdk-11-jre
+      - maven
+      - git
+    state: absent
+    update_cache: yes
+    autoremove: yes
+  when: ansible_distribution == 'Ubuntu'
+  register: uninstall_pkg_result
+  until: uninstall_pkg_result.stderr | default("") | length == 0
+  delay: 5
+  retries: 100
+
+- name: Uninstall java-11-openjdk, maven, git - CentOS
+  ansible.builtin.yum:
+    name:
+      - java-11-openjdk
+      - maven
+      - git
+    state: absent
+    update_cache: yes
+  when: ansible_distribution == 'CentOS'

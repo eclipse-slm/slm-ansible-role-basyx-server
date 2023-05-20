@@ -1,0 +1,21 @@
+---
+- name: Install openjdk-11-jre, maven, git - Ubuntu
+  ansible.builtin.apt:
+    name:
+      - openjdk-11-jre
+      - maven
+      - git
+    state: present
+    update_cache: yes
+    autoremove: yes
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Install java-11-openjdk, maven, git - CentOS
+  ansible.builtin.yum:
+    name:
+      - java-11-openjdk
+      - maven
+      - git
+    state: present
+    update_cache: yes
+  when: ansible_distribution == 'CentOS'
