@@ -1,0 +1,5 @@
+- name: run install
+  ansible.builtin.import_playbook: ../default-install/converge.yml
+
+- name: run uninstall
+  ansible.builtin.import_playbook: ../default-uninstall/converge.yml
