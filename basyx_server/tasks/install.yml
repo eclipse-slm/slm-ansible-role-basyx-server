@@ -22,7 +22,8 @@
   ansible.builtin.service_facts:
 
 - name: Install basyx_server as service
-  when: ansible_facts.services[basyx_server_service_name+'.service'] is not defined
+  when:
+    - ansible_facts.services[basyx_server_service_name+'.service'] is not defined or ansible_facts.services[basyx_server_service_name+'.service'].state == "stopped"
   block:
     - name: Git clone basyx_components repo
       ansible.builtin.git:
