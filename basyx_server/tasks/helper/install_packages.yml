@@ -8,6 +8,10 @@
     state: present
     update_cache: yes
     autoremove: yes
+  register: apt_install
+  until: apt_install.stderr | default("") | length == 0
+  delay: 5
+  retries: 100
   when: ansible_distribution == 'Ubuntu'
 
 - name: Install java-11-openjdk, maven, git - CentOS
