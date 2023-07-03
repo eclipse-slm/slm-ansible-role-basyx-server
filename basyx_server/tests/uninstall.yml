@@ -1,0 +1,11 @@
+---
+- name: Uninstall on localhost
+  hosts: localhost
+  gather_facts: yes
+  become: yes
+  vars:
+    state: absent
+  tasks:
+    - name: Run Install task
+      ansible.builtin.include_role:
+        name: ../../basyx_server
