@@ -23,3 +23,20 @@
     state: absent
     update_cache: yes
   when: ansible_distribution == 'CentOS'
+
+- name: Uninstall openjdk-11-jre, maven, git - Raspbian
+  ansible.builtin.apt:
+    name:
+      - openjdk-11-jre
+      - maven
+      - git
+    state: absent
+    update_cache: yes
+    autoremove: yes
+  when:
+    - ansible_distribution == 'Debian'
+    - ansible_lsb.id == 'Raspbian'
+  register: uninstall_pkg_result
+  until: uninstall_pkg_result.stderr | default("") | length == 0
+  delay: 5
+  retries: 100

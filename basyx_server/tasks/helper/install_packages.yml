@@ -24,4 +24,19 @@
     update_cache: yes
   when: ansible_distribution == 'CentOS'
 
-- fail:
+- name: Install openjdk-11-jre, maven, git - Raspbian
+  ansible.builtin.apt:
+    name:
+      - openjdk-11-jre
+      - maven
+      - git
+    state: present
+    update_cache: yes
+    autoremove: yes
+  register: apt_install
+  until: apt_install.stderr | default("") | length == 0
+  delay: 5
+  retries: 100
+  when:
+    - ansible_distribution == 'Debian'
+    - ansible_lsb.id == 'Raspbian'
