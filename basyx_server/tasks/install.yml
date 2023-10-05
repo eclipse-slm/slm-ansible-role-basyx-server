@@ -29,6 +29,8 @@
       ansible.builtin.git:
         repo: "{{ basyx_components_github_url }}"
         dest: "{{ basyx_components_base_folder }}"
+        single_branch: yes
+        version: "{{ basyx_components_version }}"
       become: yes
 
     - name: Run mvn install
